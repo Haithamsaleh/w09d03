@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const Register = () => {
-  const [username, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [local, setLocal]= useState("")
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ useEffect(() => {
     setLocal(token)
     
 }, [])
-  const resgister = async () => {
+  const signUp = async () => {
     const result = await axios.post(`${BASE_URL}/resgister`, {
       username,
       password,
@@ -30,28 +30,28 @@ useEffect(() => {
     <div className="mainDiv">
       <h1>Register</h1>
       <input
-        type="username"
-        name="username"
-        placeholder=" username"
+        type="Username"
+        name="Username"
+        placeholder="Username"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setUsername(e.target.value);
         }}
       />
       <br/>
       <input 
         type="password"
         name="password"
-        placeholder=" Password"
+        placeholder="Password"
         onChange={(e) => {
           setPassword(e.target.value);
         }}
       />
             <br/>
 
-      <button onClick={resgister}>Register</button>
+      <button  onClick={signUp}>Register</button>
       <br/>
 
-      <Link to="/login">Login</Link>
+      <Link to="/login">login</Link>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate , Link} from "react-router-dom";
 import { useSelector, useDispatch} from "react-redux";
 import { Tasks } from "../Tasks";
-import { login } from "../../reducers/signin";
+import { login } from "../reducers/signin";
 
 
 
@@ -34,9 +34,9 @@ setLocal(token)
 
   }, [])
 
-  const signin = async()=>{
+  const logIn = async()=>{
     const result = await axios.post(`${BASE_URL}/login`,{
-       username,
+      username,
        password,
     
     });
@@ -45,7 +45,7 @@ setLocal(token)
       token: result.data.token,
     };
 
-    dispatch(signin(data));
+    dispatch(login(data));
     
     
     localStorage.setItem("token", result.data.token);
@@ -61,7 +61,7 @@ setLocal(token)
       <input
         type="username"
         name="username"
-        placeholder="username"
+        placeholder=" username"
         onChange={(e) => {
           setUsername(e.target.value);
         }}
@@ -77,12 +77,14 @@ setLocal(token)
       />
             <br/>
 
-      <button onClick={signin}>Login</button>
+      <button  onClick={logIn}>Login</button>
       <br/>
+      <Link to="/">register</Link>
+
 
       </div>
       ):(
-          <h3><Link to="/tasks">your Tasks</Link></h3>
+          <h3><Link to="/tasks"> Tasks</Link></h3>
       )}
     </div>
   );

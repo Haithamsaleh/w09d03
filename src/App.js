@@ -6,6 +6,8 @@ import { Routes,Route } from 'react-router-dom';
 function App() {
   return (
     <div className="App">
+      <h1>Todos </h1>
+      
       <Routes>
         <Route exact path="/" element={<Register/>} />
         <Route exact path="/login" element={<Login />} />

@@ -87,14 +87,14 @@ export const Tasks = () => {
   };
 
   return (
-    <div className="mainDiv">
+    <div >
       <div>
         <input
-          className="addInput"
+          
           onChange={(e) => setTask(e.target.value)}
           placeholder="new Task"
         />
-        <button className="addBtn" onClick={addTask}>
+        <button  onClick={addTask}>
           Add
         </button>
       </div>
