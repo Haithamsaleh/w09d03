@@ -1,70 +1,99 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Description
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+***dataBASE*** is the resource for all BASE jumpers around the world to check the weather conditions of different jumps across the world cross referencing latitude and longitude of exit points and the Windy API
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## User Stories
 
-### `npm run build`
+- **Signup:** As an anon I can sign up in the platform so that I can start playing into competition
+- **Login:** As a user I can login to the platform so that I can log my exit points
+- **Logout:** As a user I can logout from the platform so no one else can use it
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Client / Frontend
 
-### `npm run eject`
+## React Router Routes (React App)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+| Path             | Component            | Permissions                | Behavior                                                     |
+| ---------------- | -------------------- | -------------------------- | ------------------------------------------------------------ |
+| `/`              | SplashPage           | public `<Route>`           | Home page                                                    |
+| `/signup`        | SignupPage           | anon only `<AnonRoute>`    | Signup form, link to login, navigate to homepage after signup |
+| `/login`         | LoginPage            | anon only `<AnonRoute>`    | Login form, link to signup, navigate to homepage after login |
+| `/exitpoint`     | TournamentListPage   | user only `<PrivateRoute>` | Shows all exit points in a list                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
+|                  |                      |                            |                                                              |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Components
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- LoginPage
+- resgisterPage
+- todosPage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Server / Backend
 
-### Code Splitting
+## Models
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+User model
 
-### Analyzing the Bundle Size
+```
+{
+  user: {type: String, required: true, unique: true},
+  email: {type: String, required: true, unique: true},
+  password: {type: String, required: true},
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+```
+ {
+   name: {type: String, required: true},
+   img: {type: String},
+   password: {type: Number, required: true}
+   role: {type: String, required: true}
+   
+ }
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Backend routes
 
-### Deployment
+| HTTP Method | URL            | Request Body                                                 | Success status | Error Status | Description                                                  |
+| ----------- | -------------- | ------------------------------------------------------------ | -------------- | ------------ | ------------------------------------------------------------ |
+| GET         | `/auth/me`     |                                                              | 200            | 404          | Check if user is logged in and return profile page           |
+| POST        | `/auth/signup` | {name, email, password}                                      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
+| POST        | `/auth/login`  | {username, password}                                         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
+| POST        | `/auth/logout` | (empty)                                                      | 204            | 400          | Logs out the user                                            |
+| POST        | /api/exit      | {name, img, aproachLat, aproachLong, aproachDescription, exitLat, exitLong, exitDescription, landingZoneLat, landingZoneLong, landingZoneDescription, altitude} |                |              | Used to create one exit point document, using current logged in user id as a creator. |
+| PUT         | /api/exit/:id  | {name, img, aproachLat, aproachLong, aproachDescription, exitLat, exitLong, exitDescription, landingZoneLat, landingZoneLong, landingZoneDescription, altitude} |                |              | Used to update one exit point document by id                 |
+| GET         | /api/exit/:id  |                                                              |                |              | Used to get one exit point document by id                    |
+| DELETE      | /api/exit/:id  |                                                              |                |              | Used to delete one exit point document by id                 |
+| GET         | /api/user      |                                                              |                |              | Used to get current user's profile. Id of the user is coming form the req.session.currentUser |
+| PUT         | /api/user      | {username, email, password}                                  |                |              | Used to update current user's profile. Id of the user is coming form the req.session.currentUser |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Links
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Git
+
+The url to your repository and to your deployed project
+
+[Client repository Link](https://github.com)
+
+[Server repository Link](https://github.com)
+
+
