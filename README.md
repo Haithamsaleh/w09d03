@@ -5,14 +5,14 @@
 
 ## Description
 
-***dataBASE*** is the resource for all BASE jumpers around the world to check the weather conditions of different jumps across the world cross referencing latitude and longitude of exit points and the Windy API
+***Todo app*** is the resource for all BASE jumpers around the world to check the weather conditions of different jumps across the world cross referencing latitude and longitude of exit points and the Windy API
 
 
 ## User Stories
 
-- **Signup:** As an anon I can sign up in the platform so that I can start playing into competition
-- **Login:** As a user I can login to the platform so that I can log my exit points
-- **Logout:** As a user I can logout from the platform so no one else can use it
+- **Signup:** As an anon I can sign up in the app so that I can start log todos
+- **Login:** As a user I can login to the app so that I can see and edit tasks
+- **Logout:** As a user I can logout from the app so no one else can use it
 
 
 
