@@ -39,7 +39,6 @@ export const Tasks = () => {
     dispatch(readTask({ task: result.data }));
     setTasks(result.data);
   };
-
   const addTask = async () => {
     await axios.post(
       `${BASE_URL}/todo`,
